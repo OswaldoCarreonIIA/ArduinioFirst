@@ -1,0 +1,47 @@
+//Sensor de temperatura.
+
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+OneWire pin(5);
+DallasTemperature sensor(&pin);
+float temperatura = 0;
+
+void setup() { 
+  pinMode(11,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(13,OUTPUT);
+  
+  Serial.begin(9600);
+  sensor.begin();
+
+}
+
+void loop() {
+
+  sensor.requestTemperatures(); 
+  temperatura = sensor.getTempCByIndex(0);
+  Serial.print(temperatura);
+  Serial.println(" °C");
+  if(temperatura<21) {
+    digitalWrite(11,HIGH);
+    digitalWrite(12,LOW);
+    digitalWrite(13,LOW);
+    
+  }
+  else if(temperatura>=21&&temperatura<26) {
+    digitalWrite(11,LOW);
+    digitalWrite(12,HIGH);
+    digitalWrite(13,LOW);
+  }
+  else if(temperatura>=26){
+    digitalWrite(11,LOW);
+    digitalWrite(12,LOW);
+    digitalWrite(13,HIGH);
+  }
+  delay(1000);
+
+
+  
+
+}
